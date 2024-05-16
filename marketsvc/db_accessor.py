@@ -1,16 +1,19 @@
 import logging
-import sqlite3
+from db.base import engine
+from sqlalchemy import text
 
-from db.init_db import DB_PATH
+def execute_query(query, params=None):
+    with engine.connect() as conn:
+        return conn.execute(text(query), params)
 
-
-def execute_query(query, params):
+"""
+def OLD_execute_query(query, params):
     with sqlite3.connect(DB_PATH) as conn:
         cur = conn.cursor()
         cur.execute(query, params)
         rows = cur.fetchall()
         return rows
-
+"""
 
 def execute_insert_query(query, params):
     with sqlite3.connect(DB_PATH) as conn:
